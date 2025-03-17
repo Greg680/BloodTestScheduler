@@ -9,5 +9,7 @@ package bloodtestscheduler;
  * @author Greg
  */
 public interface PQInterface {
+    //Sort Patients depending on urgency, i.e Urgent, medium, low
+    
     
 }

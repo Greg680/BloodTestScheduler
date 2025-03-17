@@ -9,5 +9,6 @@ package bloodtestscheduler;
  * @author Greg
  */
 public class StackAbsence {
-    
+    //List of Absent patients, 
+    //update to top 5 patients as processed
 }

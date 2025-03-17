@@ -9,5 +9,6 @@ package bloodtestscheduler;
  * @author Greg
  */
 public class PQList {
-    
+    // *maybe age related sorting*
+    //Sort first, then push to stack or process
 }

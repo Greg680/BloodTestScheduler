@@ -9,5 +9,5 @@ package bloodtestscheduler;
  * @author Greg
  */
 public interface StackInterface {
-    
+    //implement stack fucntion
 }

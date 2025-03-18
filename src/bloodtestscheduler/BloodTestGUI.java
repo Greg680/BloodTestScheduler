@@ -4,17 +4,29 @@
  */
 package bloodtestscheduler;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
 /**
  *
  * @author Greg
  */
 public class BloodTestGUI extends javax.swing.JFrame {
+    String name, GPname, hospitalward;
+    int age, priority;
+    ArrayList<Patient> Patients;
 
     /**
      * Creates new form BloodTestGUI
      */
     public BloodTestGUI() {
         initComponents();
+        Patients = new ArrayList<>();
     }
 
     /**
@@ -43,6 +55,7 @@ public class BloodTestGUI extends javax.swing.JFrame {
         DispPatientAbsentBTN = new javax.swing.JButton();
         ProcessPatientBTN = new javax.swing.JButton();
         DispNextPatientBTN = new javax.swing.JButton();
+        HwardCheck = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,16 +98,53 @@ public class BloodTestGUI extends javax.swing.JFrame {
         jLabel5.setText("Urgent, Medium, Low");
 
         AddBTN.setText("Add Patient");
+        AddBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddBTNActionPerformed(evt);
+            }
+        });
 
         DispPatientBTN.setText("Display Patients");
+        DispPatientBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DispPatientBTNActionPerformed(evt);
+            }
+        });
 
         PatientAbsentBTN.setText("Patient Absent");
+        PatientAbsentBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PatientAbsentBTNActionPerformed(evt);
+            }
+        });
 
         DispPatientAbsentBTN.setText("Display Absent Patients");
+        DispPatientAbsentBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DispPatientAbsentBTNActionPerformed(evt);
+            }
+        });
 
         ProcessPatientBTN.setText("Process Next Patient");
+        ProcessPatientBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ProcessPatientBTNActionPerformed(evt);
+            }
+        });
 
         DispNextPatientBTN.setText("Peak next Patient");
+        DispNextPatientBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DispNextPatientBTNActionPerformed(evt);
+            }
+        });
+
+        HwardCheck.setText("Hospital Ward");
+        HwardCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HwardCheckActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,8 +174,9 @@ public class BloodTestGUI extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(PriorityTF, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5)
-                                    .addComponent(PriorityTF, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(HwardCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(56, 56, 56)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -164,19 +215,25 @@ public class BloodTestGUI extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(AddBTN)
-                    .addComponent(DispPatientAbsentBTN))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(DispPatientBTN)
-                    .addComponent(ProcessPatientBTN))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PatientAbsentBTN)
-                    .addComponent(DispNextPatientBTN))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(AddBTN)
+                            .addComponent(DispPatientAbsentBTN))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ProcessPatientBTN, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(DispPatientBTN))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(PatientAbsentBTN)
+                            .addComponent(DispNextPatientBTN)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(HwardCheck)))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
 
@@ -198,6 +255,96 @@ public class BloodTestGUI extends javax.swing.JFrame {
     private void PriorityTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriorityTFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PriorityTFActionPerformed
+
+    private void DispPatientAbsentBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispPatientAbsentBTNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DispPatientAbsentBTNActionPerformed
+
+    private void AddBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBTNActionPerformed
+        // TODO add your handling code here:
+        if(NameTF.getText().isEmpty()){
+            OutputTA.setText("dont leave name empty");
+        }else if(AgeTF.getText().isEmpty()){
+            OutputTA.setText("dont leave age empty");
+        }else if(PriorityTF.getText().isEmpty()){
+            OutputTA.setText("dont leave priority empty");
+        }else{
+            name = NameTF.getText();
+            GPname = GPDetailsTF.getText();
+            age = Integer.parseInt(AgeTF.getText());
+            
+            if(PriorityTF.getText().toLowerCase().equals("urgent")){
+                priority = 1;
+            } else if(PriorityTF.getText().toLowerCase().equals("medium")){
+                priority = 2;
+            } else {
+                priority = 3;
+            }
+            
+            if(HwardCheck.isSelected()){
+                hospitalward = "attending";
+            } else {
+                hospitalward = "not attending";
+            }
+            
+            Patient addPat = new Patient(name, GPname, age, priority, hospitalward);
+            Patients.add(addPat);
+            OutputTA.setText(addPat.printPatient());
+            
+            File f;
+            FileOutputStream fStream;
+            ObjectOutputStream oStream;
+            try{
+                f = new File ("pat.dat");
+                fStream = new FileOutputStream(f);
+                oStream = new ObjectOutputStream(fStream);
+                oStream.writeObject(Patients);
+                oStream.close();
+                System.out.println("added to file succesdfully");
+            }catch(IOException e){
+                System.out.println(e);
+            }
+        }
+    }//GEN-LAST:event_AddBTNActionPerformed
+
+    private void DispPatientBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispPatientBTNActionPerformed
+        // TODO add your handling code here:
+        File f;
+        FileInputStream fStream;
+        ObjectInputStream oStream;
+        try{
+            f = new File("pat.dat");
+            fStream = new FileInputStream(f);
+            oStream = new ObjectInputStream(fStream);
+            Patients = (ArrayList<Patient>)oStream.readObject();
+            String out = "";
+            
+            for(int i = 0; i < Patients.size(); i++){
+                Patient pat = Patients.get(i);
+                out += pat.printPatient() + "\n";
+            }
+            OutputTA.setText(out);
+
+        }catch(IOException | ClassNotFoundException e){
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_DispPatientBTNActionPerformed
+
+    private void PatientAbsentBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PatientAbsentBTNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PatientAbsentBTNActionPerformed
+
+    private void DispNextPatientBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispNextPatientBTNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DispNextPatientBTNActionPerformed
+
+    private void ProcessPatientBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcessPatientBTNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ProcessPatientBTNActionPerformed
+
+    private void HwardCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HwardCheckActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_HwardCheckActionPerformed
 
     /**
      * @param args the command line arguments
@@ -241,6 +388,7 @@ public class BloodTestGUI extends javax.swing.JFrame {
     private javax.swing.JButton DispPatientAbsentBTN;
     private javax.swing.JButton DispPatientBTN;
     private javax.swing.JTextField GPDetailsTF;
+    private javax.swing.JCheckBox HwardCheck;
     private javax.swing.JTextField NameTF;
     private javax.swing.JTextArea OutputTA;
     private javax.swing.JButton PatientAbsentBTN;

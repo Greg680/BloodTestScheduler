@@ -4,19 +4,21 @@
  */
 package bloodtestscheduler;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Greg
  */
-public class Patient {
+public class Patient implements Serializable {
     // List all patients and details, 
     private String name;
     private String GPname;
     private int age;
     private int priority;
-    private int hospitalward;
+    private String hospitalward;
 
-    public Patient(String name, String GPname, int age, int priority, int hospitalward) {
+    public Patient(String name, String GPname, int age, int priority, String hospitalward) {
         this.name = name;
         this.GPname = GPname;
         this.age = age;
@@ -56,16 +58,16 @@ public class Patient {
         this.priority = priority;
     }
 
-    public int getHospitalward() {
+    public String getHospitalward() {
         return hospitalward;
     }
 
-    public void setHospitalward(int hospitalward) {
+    public void setHospitalward(String hospitalward) {
         this.hospitalward = hospitalward;
     }
     
     public String printPatient(){
-        return "patient" + name + "age" + age + "GPname" + GPname+ "priority" + priority+ "hospitalward" +hospitalward;
+        return "patient " + name + " age :" + age + " GPname :" + GPname+ " priority :" + priority+ " hospitalward :" +hospitalward;
     }
     
 }

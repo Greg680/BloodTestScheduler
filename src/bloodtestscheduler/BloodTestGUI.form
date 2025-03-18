@@ -52,8 +52,9 @@
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                   <Component id="PriorityTF" min="-2" pref="115" max="-2" attributes="0"/>
+                                  <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="HwardCheck" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -110,21 +111,30 @@
                       <Component id="jScrollPane1" min="-2" pref="147" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="AddBTN" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="DispPatientAbsentBTN" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="DispPatientBTN" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="ProcessPatientBTN" alignment="1" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="PatientAbsentBTN" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="DispNextPatientBTN" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="AddBTN" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="DispPatientAbsentBTN" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="ProcessPatientBTN" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="DispPatientBTN" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="PatientAbsentBTN" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="DispNextPatientBTN" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="HwardCheck" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace pref="63" max="32767" attributes="0"/>
           </Group>
@@ -196,31 +206,57 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Add Patient"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddBTNActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="DispPatientBTN">
       <Properties>
         <Property name="text" type="java.lang.String" value="Display Patients"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DispPatientBTNActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="PatientAbsentBTN">
       <Properties>
         <Property name="text" type="java.lang.String" value="Patient Absent"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PatientAbsentBTNActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="DispPatientAbsentBTN">
       <Properties>
         <Property name="text" type="java.lang.String" value="Display Absent Patients"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DispPatientAbsentBTNActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ProcessPatientBTN">
       <Properties>
         <Property name="text" type="java.lang.String" value="Process Next Patient"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ProcessPatientBTNActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="DispNextPatientBTN">
       <Properties>
         <Property name="text" type="java.lang.String" value="Peak next Patient"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DispNextPatientBTNActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="HwardCheck">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Hospital Ward"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="HwardCheckActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

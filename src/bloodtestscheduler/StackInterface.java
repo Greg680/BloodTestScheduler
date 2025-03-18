@@ -11,8 +11,8 @@ package bloodtestscheduler;
 public interface StackInterface {
     //implement stack fucntion needed, pop, push, size, peek, displaystack
     public Object pop();
-    public Object peek();
-    public void push();
+    public boolean isEmpty();
+    public void push(Patient patq);
     public int size();
     public String displayStack();
 }

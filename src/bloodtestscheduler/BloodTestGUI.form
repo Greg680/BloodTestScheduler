@@ -64,7 +64,6 @@
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="ProcessPatientBTN" min="-2" max="-2" attributes="0"/>
                                   <Component id="DispPatientAbsentBTN" min="-2" max="-2" attributes="0"/>
-                                  <Component id="DispNextPatientBTN" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -124,10 +123,7 @@
                           <Component id="DispPatientBTN" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="PatientAbsentBTN" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="DispNextPatientBTN" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="PatientAbsentBTN" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
@@ -240,14 +236,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ProcessPatientBTNActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="DispNextPatientBTN">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Peak next Patient"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DispNextPatientBTNActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="HwardCheck">

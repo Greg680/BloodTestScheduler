@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,14 +21,70 @@ public class BloodTestGUI extends javax.swing.JFrame {
     String name, GPname, hospitalward;
     int age, priority;
     ArrayList<Patient> Patients;
-
+    PQList PriorityQ;
+    StackAbsence stack;
+    
     /**
      * Creates new form BloodTestGUI
      */
     public BloodTestGUI() {
         initComponents();
         Patients = new ArrayList<>();
+        PriorityQ = new PQList();
+        stack = new StackAbsence();
+        LoadPatientData();
+        LoadPatientPQ();
+        LoadStack();
+        
     }
+    
+    private void LoadPatientData(){
+        File f;
+            FileInputStream fStream;
+            ObjectInputStream oStream;
+            try{
+                f = new File ("pat.dat");
+                fStream = new FileInputStream(f);
+                oStream = new ObjectInputStream(fStream);
+                Patients = (ArrayList<Patient>)oStream.readObject();
+                oStream.close();
+                System.out.println("added to file succesdfully");
+            }catch(IOException | ClassNotFoundException e){
+                System.out.println(e);
+        }
+    }
+    
+    private void LoadPatientPQ(){
+        File f;
+            FileInputStream fStream;
+            ObjectInputStream oStream;
+            try{
+                f = new File ("sortedpat.dat");
+                fStream = new FileInputStream(f);
+                oStream = new ObjectInputStream(fStream);
+                PriorityQ = (PQList)oStream.readObject();
+                oStream.close(); 
+                System.out.println("added to file succesdfully");
+            }catch(IOException | ClassNotFoundException e){
+                System.out.println(e);
+        }
+    }
+    private void LoadStack(){
+        File f;
+            FileInputStream fStream;
+            ObjectInputStream oStream;
+            try{
+                f = new File ("stackpat.dat");
+                fStream = new FileInputStream(f);
+                oStream = new ObjectInputStream(fStream);
+                stack = (StackAbsence)oStream.readObject();
+                oStream.close(); 
+                System.out.println("added to file succesdfully");
+            }catch(IOException | ClassNotFoundException e){
+                System.out.println(e);
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -54,7 +111,6 @@ public class BloodTestGUI extends javax.swing.JFrame {
         PatientAbsentBTN = new javax.swing.JButton();
         DispPatientAbsentBTN = new javax.swing.JButton();
         ProcessPatientBTN = new javax.swing.JButton();
-        DispNextPatientBTN = new javax.swing.JButton();
         HwardCheck = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -132,13 +188,6 @@ public class BloodTestGUI extends javax.swing.JFrame {
             }
         });
 
-        DispNextPatientBTN.setText("Peak next Patient");
-        DispNextPatientBTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DispNextPatientBTNActionPerformed(evt);
-            }
-        });
-
         HwardCheck.setText("Hospital Ward");
         HwardCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,8 +231,7 @@ public class BloodTestGUI extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(ProcessPatientBTN)
-                                    .addComponent(DispPatientAbsentBTN)
-                                    .addComponent(DispNextPatientBTN))
+                                    .addComponent(DispPatientAbsentBTN))
                                 .addGap(42, 42, 42)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(AddBTN, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -226,9 +274,7 @@ public class BloodTestGUI extends javax.swing.JFrame {
                             .addComponent(ProcessPatientBTN, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(DispPatientBTN))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(PatientAbsentBTN)
-                            .addComponent(DispNextPatientBTN)))
+                        .addComponent(PatientAbsentBTN))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jLabel5)
@@ -258,6 +304,12 @@ public class BloodTestGUI extends javax.swing.JFrame {
 
     private void DispPatientAbsentBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispPatientAbsentBTNActionPerformed
         // TODO add your handling code here:
+        if(stack.isEmpty()){
+            OutputTA.setText("no patients in queue");
+        }else {
+            OutputTA.setText(stack.displayStack());
+        }
+            
     }//GEN-LAST:event_DispPatientAbsentBTNActionPerformed
 
     private void AddBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBTNActionPerformed
@@ -289,7 +341,13 @@ public class BloodTestGUI extends javax.swing.JFrame {
             
             Patient addPat = new Patient(name, GPname, age, priority, hospitalward);
             Patients.add(addPat);
+            
+            PriorityQ.enqueue(addPat);
+            System.out.println(addPat.printPatient());
+            
             OutputTA.setText(addPat.printPatient());
+            
+            SortSave();
             
             File f;
             FileOutputStream fStream;
@@ -307,39 +365,75 @@ public class BloodTestGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_AddBTNActionPerformed
 
+    
     private void DispPatientBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispPatientBTNActionPerformed
         // TODO add your handling code here:
-        File f;
-        FileInputStream fStream;
-        ObjectInputStream oStream;
-        try{
-            f = new File("pat.dat");
-            fStream = new FileInputStream(f);
-            oStream = new ObjectInputStream(fStream);
-            Patients = (ArrayList<Patient>)oStream.readObject();
-            String out = "";
-            
-            for(int i = 0; i < Patients.size(); i++){
-                Patient pat = Patients.get(i);
-                out += pat.printPatient() + "\n";
-            }
-            OutputTA.setText(out);
-
-        }catch(IOException | ClassNotFoundException e){
-            System.out.println(e);
-        }
+       if(PriorityQ.isEmpty()){
+            OutputTA.setText("empty Queue please add users to display");
+        }else{
+           PriorityQ.PrioritySort();
+           OutputTA.setText(PriorityQ.print());
+       }
     }//GEN-LAST:event_DispPatientBTNActionPerformed
 
+    private void SortSave(){
+        PriorityQ.PrioritySort();
+        OutputTA.setText(PriorityQ.print());
+        
+        File f;
+            FileOutputStream fStream;
+            ObjectOutputStream oStream;
+            try{
+                f = new File ("sortedpat.dat");
+                fStream = new FileOutputStream(f);
+                oStream = new ObjectOutputStream(fStream);
+                oStream.writeObject(PriorityQ);
+                oStream.close();
+                System.out.println("added to file succesdfully");
+            }catch(IOException e){
+                System.out.println(e);
+            }
+    }
     private void PatientAbsentBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PatientAbsentBTNActionPerformed
         // TODO add your handling code here:
+        if(PriorityQ.isEmpty()){
+            OutputTA.setText("empty Queue please add users to remove");
+        }else{
+            Patient patientpop = PriorityQ.dequeue();
+            OutputTA.setText("absent patient " +patientpop.printPatient());
+            Patients.remove(patientpop);
+            
+            stack.push(patientpop);
+            File f;
+            FileOutputStream fStream;
+            ObjectOutputStream oStream;
+            try{
+                f = new File("stackpat.dat");
+                fStream = new FileOutputStream(f);
+                oStream = new ObjectOutputStream(fStream);
+                oStream.writeObject(stack);
+                oStream.close();
+            }catch(IOException e){
+                System.out.println(e);
+            }
+            SortSave();
+        }
+            
     }//GEN-LAST:event_PatientAbsentBTNActionPerformed
-
-    private void DispNextPatientBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispNextPatientBTNActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DispNextPatientBTNActionPerformed
 
     private void ProcessPatientBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProcessPatientBTNActionPerformed
         // TODO add your handling code here:
+        if(PriorityQ.isEmpty()){
+            OutputTA.setText("empty Queue please add users to remove");
+        }else{
+            Patient patientpop = PriorityQ.dequeue();
+            System.out.println(patientpop.printPatient());
+            JOptionPane.showMessageDialog(null,"patient has been processed:" + patientpop.printPatient());
+            Patients.remove(patientpop);
+            
+            SortSave();
+        }
+            
     }//GEN-LAST:event_ProcessPatientBTNActionPerformed
 
     private void HwardCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HwardCheckActionPerformed
@@ -384,7 +478,6 @@ public class BloodTestGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBTN;
     private javax.swing.JTextField AgeTF;
-    private javax.swing.JButton DispNextPatientBTN;
     private javax.swing.JButton DispPatientAbsentBTN;
     private javax.swing.JButton DispPatientBTN;
     private javax.swing.JTextField GPDetailsTF;
